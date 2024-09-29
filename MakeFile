@@ -1,0 +1,22 @@
+HOST = localhost
+PORT = 8080
+URL = http://$(HOST):$(PORT)/index.html
+SERVER_SCRIPT = src/main/server.py
+
+run-server:
+	@echo "Запуск сервера..."
+	python3 $(SERVER_SCRIPT)
+
+ab-test:
+	@echo "Запуск нагрузочного тестирования с помощью ab..."
+	ab -n 1000 -c 10 $(URL)
+
+wrk-test:
+	@echo "Запуск нагрузочного тестирования с помощью wrk..."
+	wrk -t12 -c400 -d30s $(URL)
+
+test-ab: run-server ab-test
+
+test-wrk: run-server wrk-test
+
+.PHONY: run-server ab-test wrk-test test-ab test-wrk
