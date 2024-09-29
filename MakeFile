@@ -19,4 +19,16 @@ test-ab: run-server ab-test
 
 test-wrk: run-server wrk-test
 
-.PHONY: run-server ab-test wrk-test test-ab test-wrk
+ci-ab:
+	@echo "CI: Запуск теста с ab..."
+	$(MAKE) ab-test
+
+ci-wrk:
+	@echo "CI: Запуск теста с wrk..."
+	$(MAKE) wrk-test
+
+github-actions:
+	@echo "Настройка GitHub Actions..."
+	@echo "GitHub Actions могут запускать тесты через цели 'ci-ab' или 'ci-wrk'."
+
+.PHONY: run-server ab-test wrk-test test-ab test-wrk ci-ab ci-wrk github-actions
